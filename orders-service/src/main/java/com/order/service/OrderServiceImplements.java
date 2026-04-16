@@ -28,8 +28,6 @@ public class OrderServiceImplements implements OrderService {
 		Order order = new Order();
 		order.setOrigin(request.getOrigin());
 		order.setDestination(request.getDestination());
-		// El status se asigna automáticamente en @PrePersist de la entidad
-		// El createdAt también se asigna en @PrePersist
 
 		Order saved = repository.save(order);
 		return mapToResponse(saved);
@@ -78,8 +76,6 @@ public class OrderServiceImplements implements OrderService {
 				.map(this::mapToResponse).toList();
 	}
 
-	// 🔄 MAPPER MANUAL (porque decidiste no usar clase mapper)
-	// Método privado para mapear Entity -> DTO (igual que en Drivers)
 	private OrderResponseDto mapToResponse(Order order) {
 		OrderResponseDto response = new OrderResponseDto();
 		response.setId(order.getId());
@@ -94,7 +90,6 @@ public class OrderServiceImplements implements OrderService {
 	}
 
 	//// Método privado para validar el flujo de estados
-
 	private boolean isValidStatus(OrderStatus current, OrderStatus next) {
 		if (current == next)
 			return true;
