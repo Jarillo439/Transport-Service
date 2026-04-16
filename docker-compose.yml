@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  drivers-service:
+    build: ./Drivers-Service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_drivers?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=juegos6.
+    networks:
+      - transport-network
+
+  orders-service:
+    build: ./orders-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_orders?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=juegos6.
+    networks:
+      - transport-network
+
+  assignment-service:
+    build: ./Assignment-Service-1
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/db_assignments?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=juegos6.
+      - SERVICES_ORDERS_URL=http://orders-service:8081
+      - SERVICES_DRIVERS_URL=http://drivers-service:8082
+    depends_on:
+      - orders-service
+      - drivers-service
+    networks:
+      - transport-network
+
+networks:
+  transport-network:
+    driver: bridge
