@@ -41,7 +41,7 @@ public class AssignmentServiceImpements implements AssignmentService {
 			throw new RuntimeException("La orden debe estar en estado CREATED para asignar un conductor");
 		}
 
-		// 2. Validar que el conductor existe y está activo
+		//Validar que el conductor existe y está activo
 
 		Map<String, Object> driver = driverClient.getDriverById(request.getDriverId());
 		Boolean driverActive = (Boolean) driver.get("active");
@@ -50,7 +50,7 @@ public class AssignmentServiceImpements implements AssignmentService {
 			throw new RuntimeException("El conductor debe estar activo para ser asignado");
 		}
 
-		// 3. Guardar la asignación
+		// Guardar la asignación
 		Assignment assignment = new Assignment();
 		assignment.setOrderId(request.getOrderId());
 		assignment.setDriverId(request.getDriverId());
@@ -127,5 +127,4 @@ public class AssignmentServiceImpements implements AssignmentService {
 
 		}
 	}
-
 }
